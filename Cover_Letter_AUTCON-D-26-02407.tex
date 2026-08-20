@@ -1,0 +1,80 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[margin=25mm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage{hyperref}
+
+\setlength{\parskip}{0.6em}
+\setlength{\parindent}{0pt}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=black,
+  urlcolor=blue!60!black,
+  citecolor=black,
+}
+
+\title{Cover Letter}
+\author{%
+  \parbox{\textwidth}{%
+    \textbf{Manuscript:} R4Tun: LLM-guided adaptive segmental tunnel lining segmentation in point clouds\\[0.4em]
+    \textbf{Manuscript number:} AUTCON-D-26-02407
+  }%
+}
+\date{}
+
+\begin{document}
+\maketitle
+
+Dear Editor,
+
+We thank the Associate Editor and the reviewers for their careful reading and constructive feedback, which have substantially improved the manuscript. Please find below a summary of the revised manuscript and the main changes made in response to the reviewers' comments. A detailed point-by-point response is provided in the accompanying Response to Reviewers document.
+
+The revised manuscript repositions R4Tun as a mechanism contribution: an LLM-guided method that adapts the bounded parameters of a fixed, expert-designed segmentation pipeline (SAM4Tun) to each new tunnel. Its structured context combines three sources: a single expert-tuned reference configuration (memory), the intermediate pipeline results passed between stage agents (state), and stage-specific knowledge documents defining parameter bounds and rules (knowledge). Guided by this context, R4Tun reduces repeated per-tunnel expert tuning rather than acting as a general LLM-based tunnel segmentation capability.
+
+\textbf{Important update (implementation improvement affecting key reported figures).} During this revision, we identified substantial discrepancies between the performance reported in the original SAM4Tun paper and the results obtained when reproducing the pipeline in this study. We therefore invited the first author of the original SAM4Tun paper (Zehao Ye) to contribute to the revision, and the author list and CRediT contributions have been updated accordingly. He supported the identification and resolution of a compatibility issue in an underlying dependency (Pillow) that caused the mask-prompt generation step to produce incorrect prompts. After fixing this issue, the expert-tuned reference reaches an mIoU of 0.8801 (previously 0.645), and, under the same memory--state--knowledge adaptation, near-reference (regular-staggered) tunnels now reach mIoU 0.784--0.796 across the three LLMs, approaching the 0.80 level highlighted by Reviewer~2. This correction does not change the main conclusions of the work: a strong expert-tuned reference anchor is a prerequisite for the LLM-guided adaptation mechanism, and the core contribution remains an LLM-guided bounded parameter adaptation framework for an existing segmentation pipeline. All experimental results in the revised manuscript are reported on the corrected pipeline.
+
+To address the central concern about absolute accuracy (Reviewer~2), beyond the reproduction fix above, we:
+\begin{itemize}[nosep]
+  \item updated all results on the corrected pipeline (Section~4.1): overall mIoU rises from 0.18 to 0.43--0.48 and OA from 0.42 to 0.59--0.65, with near-reference tunnels at 0.784--0.796;
+  \item removed all relative-gain framing and now lead with absolute mIoU and OA, keeping the 0.18 static figure only as a stress test;
+  \item repositioned R4Tun as an upstream, human-in-the-loop step, scoping the re-tuning claim to assisted, expert-verified re-configuration for near-reference tunnels.
+\end{itemize}
+
+To provide the additional analyses requested, we added:
+\begin{itemize}[nosep]
+  \item an error analysis with FP/FN error maps, an error-composition table, and a mechanism figure naming the two structural limits on accuracy (Section~4.6);
+  \item external positioning against supervised and expert-tuned methods as an operating-point comparison (Section~5.2, Table~11);
+  \item a runtime trade-off separating the base SAM4Tun time (235~s per tunnel) from the added LLM adaptation time (Section~4.4, Table~8);
+  \item a repeatability check showing limited drift: 90.9\% of 18 critical parameters unchanged between runs, mean $|\Delta$mIoU$|$ = 0.029 (Appendix~7, Table~19).
+\end{itemize}
+
+To clarify scope and limitations, we:
+\begin{itemize}[nosep]
+  \item reframed the study (Fig.~1, Abstract, Introduction, Conclusion) as bounded parameter adaptation, noting R4Tun still requires expert-defined references, bounds, and knowledge;
+  \item distinguished LLM reasoning from rule-based adjustment via the five-step CoT prompt (Section~3.3, Algorithm~1) and the deterministic non-LLM baseline (Section~3.4.2, Appendix~3);
+  \item expanded the Limitations (Section~5.3) and separated them from future work (Section~6): the single reference anchor and inherited SAM4Tun operator assumptions.
+\end{itemize}
+
+To address the editorial and presentation comments, we:
+\begin{itemize}[nosep]
+  \item added short introductions to Sections~2--5 to remove orphan headings;
+  \item strengthened Related Work and checked all references against the author guidelines (full details, DOIs, acronym capitalisation, six-plus-``et al.'', published versions of preprints);
+  \item fixed all appendix cross-references to resolve to numbered appendices (1--9), now placed after the References;
+  \item made Figs.~1, 5, and 6 and the critical-parameters table self-contained.
+\end{itemize}
+
+If you have any questions, please feel free to contact us.
+
+Thank you very much for your valuable processing of our work. We look forward to hearing from you on our revised manuscript.
+
+\bigskip
+\noindent Sincerely,\\
+The Authors
+
+\end{document}
