@@ -1,0 +1,117 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[margin=25mm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{enumitem}
+\usepackage[table]{xcolor}
+\usepackage{hyperref}
+
+\setlength{\parskip}{0.6em}
+\setlength{\parindent}{0pt}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=black,
+  urlcolor=blue!60!black,
+  citecolor=black,
+}
+
+\definecolor{responsegreen}{HTML}{1B6E2B}
+
+\newenvironment{commentblock}{%
+  \par\smallskip\noindent\textbf{Comment:}\par
+  \begin{quote}\itshape\color{black}
+}{%
+  \end{quote}\smallskip
+}
+
+\newenvironment{responseblock}{%
+  \par\smallskip\noindent\textbf{Response:}\par
+  \begingroup\color{responsegreen}
+}{%
+  \endgroup\smallskip
+}
+
+\title{Response to Reviewers}
+\author{%
+  \parbox{\textwidth}{%
+    \textbf{Manuscript:} R4Tun: LLM-guided adaptive segmental tunnel lining segmentation in point clouds\\[0.4em]
+    \textbf{Manuscript number:} AUTCON-D-26-02407R1
+  }%
+}
+\date{}
+
+\begin{document}
+\maketitle
+
+We are grateful to the Associate Editor and reviewers for re-evaluating our manuscript and for their constructive comments. We have addressed each remaining point below and revised the manuscript accordingly. All changes are highlighted in the marked manuscript.
+
+\section*{Associate Editor}
+
+\begin{commentblock}
+The reviewers have re-evaluated your manuscript. The revisions are well received, and a smaller number of minor comments remain to be addressed. The authors are requested to respond to the reviewer comments similar to the previous round of revisions. Please include a concise review response letter, a manuscript with changes marked, and an unmarked version of the manuscript.
+\end{commentblock}
+\begin{responseblock}
+We thank the Associate Editor for the positive assessment. We have prepared this concise point-by-point response and will submit both marked and unmarked versions of the revised manuscript.
+\end{responseblock}
+
+\begin{commentblock}
+The references need further improvements:
+\begin{itemize}[nosep]
+  \item Several references lack DOIs, e.g.\ [1], [2], [3].
+  \item Check the use of symbols in \LaTeX, e.g.\ reference [5], [6].
+  \item When a DOI is available, no other links need to be included, e.g.\ [11], [15--17].
+\end{itemize}
+\end{commentblock}
+\begin{responseblock}
+We have re-audited the complete reference list against the publishers' records. Available DOIs have been added, including those missing from the cited entries; accented characters and other special symbols have been encoded consistently in \LaTeX; and redundant URL fields have been removed whenever a DOI is available. We also recompiled and visually checked the numbered reference list to confirm that author names and symbols render correctly.
+\end{responseblock}
+
+\section*{Reviewer 1}
+
+\begin{commentblock}
+The authors address all the comments, the manuscript can be published as it.
+\end{commentblock}
+\begin{responseblock}
+We sincerely thank the reviewer for re-evaluating the manuscript and for this positive recommendation. We have also proofread the revised manuscript once more for language and consistency.
+\end{responseblock}
+
+\section*{Reviewer 2}
+
+\begin{commentblock}
+1. In the Introduction, the authors explicitly position R4Tun as ``a mechanism contribution rather than a deployable final-inspection system'' and state that its core contribution lies in combining LLM-driven bounded parameter adaptation with an expert-designed pipeline, where every parameter change can be audited through logged reasoning. However, this key positioning is not stated entirely consistently throughout the paper. The authors should reinforce this positioning consistently in the Abstract, Contributions, and Conclusions, so that readers at different levels of reading depth can accurately understand the boundary of R4Tun's academic contribution.
+\end{commentblock}
+\begin{responseblock}
+We agree and have made this positioning explicit and consistent at all three reading levels:
+\begin{itemize}[nosep]
+  \item \textbf{Abstract:} R4Tun is now introduced as a mechanism for auditable, bounded parameter adaptation of the fixed, expert-designed SAM4Tun pipeline, rather than as a standalone or deployment-ready inspection system. The Abstract also states that the evidence is limited to the tested SAM4Tun--Seg2Tunnel setting and that final use requires expert verification.
+  \item \textbf{Contributions:} the first contribution now identifies the academic contribution as the adaptation mechanism itself---structured $m+s+k$ context, bounded parameter updates, and logged rationales---and explicitly distinguishes it from a new segmentation backbone or autonomous inspection system.
+  \item \textbf{Conclusions:} the same scope is reiterated: R4Tun adapts but does not replace the expert-designed operators, and its current role is assisted, expert-verified reconfiguration rather than autonomous final inspection or unverified downstream use.
+\end{itemize}
+These revisions align the scope statement throughout the manuscript without changing the reported results or claims.
+\end{responseblock}
+
+\begin{commentblock}
+2. The paper describes R4Tun's multi-agent architecture as comprising four processing stages: unfolding, denoising, enhancing, and segmenting (as described in Section 3.2 and the explanation of Figure 2). However, in the actual presentation of Figure 2, these four stages are not clearly distinguished through visual grouping or labels. It is difficult for readers to intuitively map the modules in the figure to the four stages described in the text, especially because the figure lacks clear visual guidance regarding stage boundaries and the direction of data flow. In addition, the authors should check whether other figures in the paper have similar clarity issues.
+\end{commentblock}
+\begin{responseblock}
+Figure~2 has been redesigned to match the four-stage description in Section~3.2. The modules are now enclosed in four explicitly labelled visual groups---Stage~1: Unfolding, Stage~2: Denoising, Stage~3: Enhancing, and Stage~4: Segmenting---and directional arrows show the main data flow from the raw point cloud through the intermediate representations to 2D segmentation and 3D reprojection. The caption has also been expanded to explain this sequence and the role of each stage agent.
+
+We additionally audited the remaining workflow figures for stage labels, reading order, arrow direction, abbreviation definitions, and caption self-containment. Their labels and captions have been revised where needed so that each figure can be interpreted without relying on unstated mappings in the main text.
+\end{responseblock}
+
+\begin{commentblock}
+3. In Sections 2.1 and 2.2, the authors review feature engineering methods and foundation model pipelines, but in the methodological discussion of the unfolding stage (Stage 1), they do not sufficiently cite recent related work on tunnel point cloud unfolding and segmentation. UnrollingNet (10.1016/j.autcon.2022.104456) has notable technical similarities to the unfolding stage of R4Tun and is highly relevant as a reference. In addition, several other representative recent works on tunnel point cloud processing, segmentation, and defect detection deserve to be included in the discussion.
+\end{commentblock}
+\begin{responseblock}
+We thank the reviewer for identifying this omission. Sections~2.1--2.2 and the Stage~1 discussion in Section~3.2 have been expanded to include UnrollingNet (Zhang et al., 2022; DOI: \url{https://doi.org/10.1016/j.autcon.2022.104456}) and representative recent studies on tunnel point-cloud segmentation and inspection.
+
+The revised discussion now distinguishes the methods more clearly. UnrollingNet learns features from an unrolled tunnel representation for supervised semantic segmentation, whereas R4Tun's unfolding stage is a deterministic cylindrical projection inherited from SAM4Tun; the LLM does not learn the projection or perform segmentation, but only proposes bounded updates to its exposed parameters. We also connect this discussion to recent tunnel datasets, attention-based point-cloud segmentation, training-free SAM-based lining segmentation, and automated tunnel point-cloud processing. These additions better position the technical overlap while preserving the boundary of R4Tun's mechanism contribution.
+\end{responseblock}
+
+\bigskip
+\noindent We believe these revisions resolve the remaining concerns by making the contribution boundary consistent, improving the visual mapping of the four-stage architecture, strengthening the discussion of directly relevant tunnel point-cloud literature, and standardising the reference list.
+
+\end{document}
